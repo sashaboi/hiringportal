@@ -1,0 +1,20 @@
+.homepage-container {
+  width: 90vw;
+  margin: auto;
+  padding: 1rem;
+  display: grid;
+  align-items: center;
+  text-align: left;
+  grid-template-columns: 1fr 4fr;
+}
+.homepage-parent {
+  min-width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.navbar-container {
+  padding-left: 5vw;
+  width: 100%;
+}

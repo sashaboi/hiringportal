@@ -1,0 +1,11 @@
+.candidate-card-parent {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 1fr;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  justify-content: space-between;
+}
+.candidate-star {
+  font-size: 0.5rem;
+}
