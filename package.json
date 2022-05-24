@@ -6,6 +6,7 @@
     "@atlaskit/atlassian-navigation": "^2.2.2",
     "@atlaskit/avatar": "^20.5.10",
     "@atlaskit/checkbox": "^12.3.13",
+    "@atlaskit/dropdown-menu": "^11.1.5",
     "@atlaskit/dynamic-table": "^14.5.5",
     "@atlaskit/icon": "^21.10.7",
     "@atlaskit/logo": "^13.6.0",
@@ -18,6 +19,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.0.4",
     "@testing-library/user-event": "^13.5.0",
+    "faker": "^5.2.0",
     "react": "^16.8.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^6.3.0",
@@ -50,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.0.1",
     "barrel-exporter": "^1.0.1"
   }
 }
