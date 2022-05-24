@@ -1,0 +1,9 @@
+.homepage-container {
+  width: 90vw;
+  margin: auto;
+  padding: 1rem;
+  display: grid;
+  align-items: center;
+  text-align: left;
+  grid-template-columns: 1fr 4fr;
+}

@@ -1,0 +1,13 @@
+.candidatelisting-parent {
+  height: 90vh;
+}
+.sidebar-parent {
+  height: 90vh;
+}
+.table-titles {
+  display: grid;
+  align-items: center;
+  padding-left: 1rem;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 1fr;
+  color: #172b4d;
+}
