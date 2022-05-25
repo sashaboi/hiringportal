@@ -2,13 +2,121 @@ import React from "react";
 // import { v4 as uuid } from "uuid";
 import DynamicTable from "@atlaskit/dynamic-table";
 
-import employeeData from "../../assets/data/employeeData";
 import "./candidatelisting.css";
 // import { CandidateCard } from "../CandidateCard/CandidateCard";
 // import { token } from "@atlaskit/tokens";
-import { head, rows } from "../../utils/TableDataHandler/TableDataHandler";
-console.log(employeeData);
+import { head } from "../../utils/TableDataHandler/TableDataHandler";
+
+import Avatar from "@atlaskit/avatar";
+import EmailIcon from "@atlaskit/icon/glyph/email";
+import TrashIcon from "@atlaskit/icon/glyph/trash";
+import ExportIcon from "@atlaskit/icon/glyph/export";
+import DropdownMenu, {
+  DropdownItem,
+  DropdownItemGroup,
+} from "@atlaskit/dropdown-menu";
+
+import { useSelector } from "react-redux";
 export const Candidatelisting = () => {
+  const state = useSelector((state) => state.candidate);
+  const searchfilteredstate = state.candidates.filter((obj) =>
+    obj.name.toUpperCase().includes(state.search.toUpperCase())
+  );
+  const locationfilteredstate =
+    state.location.length === 0
+      ? searchfilteredstate
+      : searchfilteredstate.filter((obj) =>
+          state.location.some((statelocation) => statelocation === obj.location)
+        );
+  const techStackFilteredState =
+    state.tech.length === 0
+      ? locationfilteredstate
+      : locationfilteredstate.filter((obj) =>
+          state.tech.some((tech) => tech === obj.tech)
+        );
+  console.log("state from data", state);
+  const rows = techStackFilteredState.map((candidateobj) => ({
+    key: candidateobj.id,
+    isHighlighted: false,
+    cells: [
+      {
+        key: createKey(candidateobj.image),
+        content: (
+          <Avatar
+            appearance="circle"
+            src={candidateobj.image}
+            size="large"
+            name="John Doe"
+            isLoading={state.loading}
+          />
+        ),
+      },
+      {
+        key: createKey(candidateobj.name),
+        content: <p> {candidateobj.name}</p>,
+      },
+      {
+        key: createKey(candidateobj.email),
+        content: candidateobj.email,
+      },
+      {
+        key: candidateobj.id,
+        content: candidateobj.location,
+      },
+      {
+        key: "Lorem",
+        content: candidateobj.tech,
+      },
+      {
+        key: "MoreDropdown",
+        content: (
+          <DropdownMenu trigger="More">
+            <DropdownItemGroup>
+              <DropdownItem>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                  }}
+                >
+                  <EmailIcon /> Send notification Email
+                </div>
+              </DropdownItem>
+              <DropdownItem>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                  }}
+                >
+                  <TrashIcon />
+                  Remove From List
+                </div>
+              </DropdownItem>
+              <DropdownItem>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                  }}
+                >
+                  <ExportIcon />
+                  Export Resume
+                </div>
+              </DropdownItem>
+            </DropdownItemGroup>
+          </DropdownMenu>
+        ),
+      },
+    ],
+  }));
+  function createKey(input) {
+    return input ? input.replace(/^(the|a|an)/, "").replace(/\s/g, "") : input;
+  }
+
   return (
     <div className="candidatelisting-parent">
       <DynamicTable
@@ -18,7 +126,8 @@ export const Candidatelisting = () => {
         defaultPage={1}
         loadingSpinnerSize="large"
         isRankable
-        emptyView={<h2>The table is empty and this is the empty view</h2>}
+        emptyView={<h2>The table is empty !</h2>}
+        isLoading={state.loading}
       />
 
       {/* <div

@@ -7,7 +7,6 @@ import DropdownMenu, {
   DropdownItem,
   DropdownItemGroup,
 } from "@atlaskit/dropdown-menu";
-
 (() => {
   console.log(data);
 })();
@@ -39,7 +38,7 @@ export const createHead = (withWidth) => {
       },
       {
         key: "location",
-        content: "location",
+        content: "Location",
         shouldTruncate: true,
         isSortable: true,
         width: withWidth ? 10 : undefined,
@@ -61,7 +60,6 @@ export const createHead = (withWidth) => {
 };
 
 export const head = createHead(true);
-
 export const rows = data.map((candidate) => ({
   key: candidate.id,
   isHighlighted: false,
@@ -109,18 +107,7 @@ export const rows = data.map((candidate) => ({
                 <EmailIcon /> Send notification Email
               </div>
             </DropdownItem>
-            <DropdownItem>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                }}
-              >
-                <TrashIcon />
-                Remove From List
-              </div>
-            </DropdownItem>
+
             <DropdownItem>
               <div
                 style={{
@@ -131,6 +118,18 @@ export const rows = data.map((candidate) => ({
               >
                 <ExportIcon />
                 Export Resume
+              </div>
+            </DropdownItem>
+            <DropdownItem>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <TrashIcon />
+                Remove From List
               </div>
             </DropdownItem>
           </DropdownItemGroup>
