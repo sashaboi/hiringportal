@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 // import { v4 as uuid } from "uuid";
 import DynamicTable from "@atlaskit/dynamic-table";
 
 import "./candidatelisting.css";
-// import { CandidateCard } from "../CandidateCard/CandidateCard";
-// import { token } from "@atlaskit/tokens";
-import { head } from "../../utils/TableDataHandler/TableDataHandler";
 
+import { head } from "../../utils/TableDataHandler/TableDataHandler";
+import {
+  removeSingleCandidate,
+  restorecandidate,
+} from "../../ReduxAssets/CandidateSlice/candidateSlice";
 import Avatar from "@atlaskit/avatar";
 import EmailIcon from "@atlaskit/icon/glyph/email";
 import TrashIcon from "@atlaskit/icon/glyph/trash";
@@ -15,9 +17,17 @@ import DropdownMenu, {
   DropdownItem,
   DropdownItemGroup,
 } from "@atlaskit/dropdown-menu";
-
-import { useSelector } from "react-redux";
+import { useFlags } from "@atlaskit/flag";
+import { useSelector, useDispatch } from "react-redux";
+import Info from "@atlaskit/icon/glyph/info";
+import { token } from "@atlaskit/tokens";
+import { P300 } from "@atlaskit/theme/colors";
 export const Candidatelisting = () => {
+  const dispatch = useDispatch();
+
+  const { showFlag } = useFlags();
+  const [indexOfDeletedElement, setIndexOfDeletedElement] = useState(0);
+  console.log(indexOfDeletedElement);
   const state = useSelector((state) => state.candidate);
   const searchfilteredstate = state.candidates.filter((obj) =>
     obj.name.toUpperCase().includes(state.search.toUpperCase())
@@ -34,7 +44,6 @@ export const Candidatelisting = () => {
       : locationfilteredstate.filter((obj) =>
           state.tech.some((tech) => tech === obj.tech)
         );
-  console.log("state from data", state);
   const rows = techStackFilteredState.map((candidateobj) => ({
     key: candidateobj.id,
     isHighlighted: false,
@@ -91,11 +100,15 @@ export const Candidatelisting = () => {
                     gap: "1rem",
                   }}
                 >
-                  <TrashIcon />
-                  Remove From List
+                  <ExportIcon />
+                  Export Resume
                 </div>
               </DropdownItem>
-              <DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  removeFromList(candidateobj);
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
@@ -103,8 +116,8 @@ export const Candidatelisting = () => {
                     gap: "1rem",
                   }}
                 >
-                  <ExportIcon />
-                  Export Resume
+                  <TrashIcon />
+                  Remove From List
                 </div>
               </DropdownItem>
             </DropdownItemGroup>
@@ -116,6 +129,40 @@ export const Candidatelisting = () => {
   function createKey(input) {
     return input ? input.replace(/^(the|a|an)/, "").replace(/\s/g, "") : input;
   }
+  const addAutoDismissFlag = (object) => {
+    showFlag({
+      appearance: "success",
+      actions: [
+        {
+          content: "Undo Remove",
+          onClick: () => {
+            dispatch(
+              restorecandidate({
+                candidate: object,
+                index: indexOfDeletedElement,
+              })
+            );
+          },
+        },
+      ],
+      description: `Removed ${object.name} from the list`,
+      icon: (
+        <Info label="Info" primaryColor={token("color.icon.discovery", P300)} />
+      ),
+      title: ` Candidate Removed`,
+      isAutoDismiss: true,
+    });
+  };
+
+  const removeFromList = (obj) => {
+    setIndexOfDeletedElement(
+      state.candidates.findIndex((candidate) => candidate.id === obj.id)
+    );
+
+    addAutoDismissFlag(obj);
+
+    dispatch(removeSingleCandidate(obj));
+  };
 
   return (
     <div className="candidatelisting-parent">
@@ -129,30 +176,6 @@ export const Candidatelisting = () => {
         emptyView={<h2>The table is empty !</h2>}
         isLoading={state.loading}
       />
-
-      {/* <div
-        style={{
-          backgroundColor: token("elevation.surface.overlay", "#fff"),
-          boxShadow: token(
-            "elevation.shadow.overlay",
-            "0px 4px 8px rgba(9, 30, 66, 0.25), 0px 0px 1px rgba(9, 30, 66, 0.31)"
-          ),
-          borderRadius: 4,
-          maxWidth: "100%",
-          marginRight: "10px",
-        }}
-        className="table-titles"
-      >
-        <h3>Picture</h3>
-        <h3>Name</h3>
-        <h3>Email</h3>
-        <h3>Company</h3>
-        <h3>City</h3>
-        <h3>Action</h3>
-      </div>
-      {employeeData.map((obj) => (
-        <CandidateCard key={uuid()} candidate={obj} />
-      ))} */}
     </div>
   );
 };

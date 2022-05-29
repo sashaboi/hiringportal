@@ -4,7 +4,6 @@ import "./candidate.css";
 import { token } from "@atlaskit/tokens";
 import StarLargeIcon from "@atlaskit/icon/glyph/star-large";
 export const CandidateCard = ({ candidate }) => {
-  console.log(candidate);
   return (
     <div
       style={{

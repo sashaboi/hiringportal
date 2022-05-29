@@ -7,9 +7,7 @@ import DropdownMenu, {
   DropdownItem,
   DropdownItemGroup,
 } from "@atlaskit/dropdown-menu";
-(() => {
-  console.log(data);
-})();
+
 function createKey(input) {
   return input ? input.replace(/^(the|a|an)/, "").replace(/\s/g, "") : input;
 }
@@ -20,11 +18,11 @@ export const createHead = (withWidth) => {
       {
         key: "name",
         content: "Profilepic",
-        isSortable: true,
+
         width: withWidth ? 5 : undefined,
       },
       {
-        key: "name",
+        key: "string",
         content: "Name",
         isSortable: true,
         width: withWidth ? 15 : undefined,
@@ -33,21 +31,21 @@ export const createHead = (withWidth) => {
         key: "email",
         content: "Email",
         shouldTruncate: true,
-        isSortable: false,
+
         width: withWidth ? 15 : undefined,
       },
       {
         key: "location",
         content: "Location",
         shouldTruncate: true,
-        isSortable: true,
+
         width: withWidth ? 10 : undefined,
       },
       {
         key: "tech",
         content: "TechStack",
         shouldTruncate: true,
-        isSortable: true,
+
         width: withWidth ? 10 : undefined,
       },
       {
@@ -60,6 +58,7 @@ export const createHead = (withWidth) => {
 };
 
 export const head = createHead(true);
+
 export const rows = data.map((candidate) => ({
   key: candidate.id,
   isHighlighted: false,
@@ -92,7 +91,6 @@ export const rows = data.map((candidate) => ({
       content: candidate.tech,
     },
     {
-      key: "MoreDropdown",
       content: (
         <DropdownMenu trigger="More">
           <DropdownItemGroup>
@@ -120,18 +118,20 @@ export const rows = data.map((candidate) => ({
                 Export Resume
               </div>
             </DropdownItem>
-            <DropdownItem>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                }}
-              >
-                <TrashIcon />
-                Remove From List
-              </div>
-            </DropdownItem>
+            <div>
+              <DropdownItem>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                  }}
+                >
+                  <TrashIcon />
+                  Remove From List
+                </div>
+              </DropdownItem>
+            </div>
           </DropdownItemGroup>
         </DropdownMenu>
       ),

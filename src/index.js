@@ -5,13 +5,15 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./ReduxAssets/store/store";
+import { FlagsProvider } from "@atlaskit/flag";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Router>
-      <Provider store={store}>
+  <Router>
+    <Provider store={store}>
+      <FlagsProvider>
         <App />
-      </Provider>
-    </Router>
-  </React.StrictMode>,
+      </FlagsProvider>
+    </Provider>
+  </Router>,
   document.getElementById("root")
 );

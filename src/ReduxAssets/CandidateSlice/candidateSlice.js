@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { current } from "immer";
 
 const initialState = {
   error: null,
+  resetData: [],
   candidates: [],
   loading: true,
   sortBy: "recent", // "recent", "likes","comments"
@@ -14,8 +14,32 @@ const candidateSlice = createSlice({
   name: "candidates",
   initialState,
   reducers: {
+    addSingleCandidate: (state, action) => {
+      state.candidates.unshift(action.payload);
+    },
     addCandidates: (state, action) => {
       state.candidates = action.payload;
+      state.resetData = action.payload;
+      state.loading = false;
+    },
+    restorecandidate: (state, action) => {
+      console.log(action.payload.index);
+      state.candidates.splice(
+        action.payload.index,
+        0,
+        action.payload.candidate
+      );
+    },
+    removeSingleCandidate: (state, action) => {
+      state.candidates = state.candidates.filter(
+        (obj) => obj.id !== action.payload.id
+      );
+    },
+    resetData: (state) => {
+      state.candidates = state.resetData;
+      state.location = [];
+      state.tech = [];
+      state.search = "";
       state.loading = false;
     },
     searchCandidates: (state, action) => {
@@ -25,10 +49,7 @@ const candidateSlice = createSlice({
       state.loading = false;
     },
     locationFilter: (state, action) => {
-      console.log(action.payload);
       if (action.payload.check === false) {
-        console.log("entered false condition", action.payload.checkedlocation);
-        console.log(current(state.location));
         state.location = state.location.filter(
           (obj) => obj !== String(action.payload.checkedlocation)
         );
@@ -37,10 +58,7 @@ const candidateSlice = createSlice({
       }
     },
     techFilter: (state, action) => {
-      console.log(action.payload);
       if (action.payload.check === false) {
-        console.log("entered false condition", action.payload.checkedTech);
-        console.log(current(state.tech));
         state.tech = state.tech.filter(
           (obj) => obj !== String(action.payload.checkedTech)
         );
@@ -51,7 +69,15 @@ const candidateSlice = createSlice({
   },
   extraReducers: {},
 });
-export const { addCandidates, searchCandidates, locationFilter, techFilter } =
-  candidateSlice.actions;
+export const {
+  addCandidates,
+  resetData,
+  searchCandidates,
+  locationFilter,
+  techFilter,
+  removeSingleCandidate,
+  restorecandidate,
+  addSingleCandidate,
+} = candidateSlice.actions;
 
 export default candidateSlice.reducer;

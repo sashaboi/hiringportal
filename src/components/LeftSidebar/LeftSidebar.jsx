@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PageHeader from "@atlaskit/page-header";
 import { Checkbox } from "@atlaskit/checkbox";
 import Textfield from "@atlaskit/textfield";
@@ -6,15 +6,23 @@ import "./leftsidebar.css";
 import { HeadingItem } from "@atlaskit/menu";
 import { token } from "@atlaskit/tokens";
 import { useDispatch } from "react-redux";
+import { P300 } from "@atlaskit/theme/colors";
+import { useFlags } from "@atlaskit/flag";
+import Info from "@atlaskit/icon/glyph/info";
+
 import {
   searchCandidates,
   locationFilter,
   techFilter,
+  resetData,
 } from "../../ReduxAssets/CandidateSlice/candidateSlice";
 import { useSelector } from "react-redux";
 import Button from "@atlaskit/button";
 import DropdownMenu, { DropdownItemGroup } from "@atlaskit/dropdown-menu";
 export const LeftSidebar = () => {
+  const flagCount = useRef(1);
+
+  const { showFlag } = useFlags();
   const [searchTimer, setSearchTimer] = useState();
   const state = useSelector((state) => state.candidate);
   const dispatch = useDispatch();
@@ -33,6 +41,23 @@ export const LeftSidebar = () => {
   const allTechStacks = state.candidates.reduce((acc, val) => {
     return acc.includes(val.tech) ? [...acc] : [...acc, val.tech];
   }, []);
+
+  const addAutoDismissFlag = () => {
+    showFlag({
+      actions: [
+        {
+          content: "Nice one!",
+          onClick: () => {},
+        },
+      ],
+      description: "I will automatically dismiss after 8 seconds.",
+      icon: (
+        <Info label="Info" primaryColor={token("color.icon.discovery", P300)} />
+      ),
+      title: `${flagCount.current++}: Whoa a new flag!`,
+      isAutoDismiss: true,
+    });
+  };
   return (
     <div
       style={{
@@ -109,8 +134,21 @@ export const LeftSidebar = () => {
           </DropdownItemGroup>
         ))}
       </DropdownMenu>
-      <Button onClick={() => {}} appearance="primary">
+      <Button
+        onClick={() => {
+          dispatch(resetData());
+        }}
+        appearance="primary"
+      >
         Reset
+      </Button>
+      <Button
+        appearance="primary"
+        onClick={() => {
+          addAutoDismissFlag();
+        }}
+      >
+        Test Flag
       </Button>
     </div>
   );
