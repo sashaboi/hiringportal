@@ -3,10 +3,7 @@ import { Candidatelisting } from "../../components/CandidateListing/Candidatelis
 import { LeftSidebar } from "../../components/LeftSidebar/LeftSidebar";
 import { Navbar } from "../../components/Navbar/Navbar";
 import "./homepage.css";
-import { data } from "../../utils/TableDataHandler/candidatedata";
-
 export const Homepage = () => {
-  console.log(data);
   return (
     <div className="homepage-parent">
       <div className="navbar-container">

@@ -1,11 +1,11 @@
+/* eslint-disable no-sparse-arrays */
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { AtlassianIcon, AtlassianLogo } from "@atlaskit/logo";
 
 import {
   AtlassianNavigation,
   PrimaryButton,
-  PrimaryDropdownButton,
   ProductHome,
 } from "@atlaskit/atlassian-navigation";
 
@@ -19,10 +19,13 @@ const Navbar = () => (
     iconAlt="Atlassian Documentation"
     logoAlt="Atlassian Documentation"
     primaryItems={[
-      <PrimaryButton>Your work</PrimaryButton>,
-      <PrimaryDropdownButton>Issues</PrimaryDropdownButton>,
-      <PrimaryDropdownButton>Projects</PrimaryDropdownButton>,
-      <PrimaryButton>Repositories</PrimaryButton>,
+      <Link to={"/"}>
+        <PrimaryButton>Candidates</PrimaryButton>
+      </Link>,
+      <Link to={"/editprofile"}>
+        <PrimaryButton>Add Candidates</PrimaryButton>
+      </Link>,
+      ,
     ]}
     renderProductHome={AtlassianProductHome}
   />
